@@ -165,7 +165,7 @@ final class CatalogItemSDK implements CatalogItemSDKInterface
             );
         }
 
-        $resourcePath = '/catalog/2020-12-01/items/{asin}';
+        $resourcePath = '/catalog/2022-04-01/items/{asin}';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
