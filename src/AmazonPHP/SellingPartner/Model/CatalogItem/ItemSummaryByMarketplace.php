@@ -40,6 +40,7 @@ class ItemSummaryByMarketplace implements \ArrayAccess, \JsonSerializable, Model
         'model_number' => 'string',
         'size_name' => 'string',
         'style_name' => 'string',
+        'item_classification' => 'string'
     ];
 
     /**
@@ -59,6 +60,7 @@ class ItemSummaryByMarketplace implements \ArrayAccess, \JsonSerializable, Model
         'model_number' => null,
         'size_name' => null,
         'style_name' => null,
+        'item_classification' => null
     ];
 
     /**
@@ -77,6 +79,7 @@ class ItemSummaryByMarketplace implements \ArrayAccess, \JsonSerializable, Model
         'model_number' => 'modelNumber',
         'size_name' => 'sizeName',
         'style_name' => 'styleName',
+        'item_classification' => 'itemClassification'
     ];
 
     /**
@@ -94,6 +97,7 @@ class ItemSummaryByMarketplace implements \ArrayAccess, \JsonSerializable, Model
         'model_number' => 'setModelNumber',
         'size_name' => 'setSizeName',
         'style_name' => 'setStyleName',
+        'item_classification' => 'setItemClassification',
     ];
 
     /**
@@ -111,6 +115,7 @@ class ItemSummaryByMarketplace implements \ArrayAccess, \JsonSerializable, Model
         'model_number' => 'getModelNumber',
         'size_name' => 'getSizeName',
         'style_name' => 'getStyleName',
+        'item_classification' => 'getItemClassification',
     ];
 
     /**
@@ -137,6 +142,7 @@ class ItemSummaryByMarketplace implements \ArrayAccess, \JsonSerializable, Model
         $this->container['model_number'] = $data['model_number'] ?? null;
         $this->container['size_name'] = $data['size_name'] ?? null;
         $this->container['style_name'] = $data['style_name'] ?? null;
+        $this->container['item_classification'] = $data['item_classification'] ?? null;
     }
 
     /**
@@ -377,6 +383,26 @@ class ItemSummaryByMarketplace implements \ArrayAccess, \JsonSerializable, Model
     public function setSizeName(?string $size_name) : self
     {
         $this->container['size_name'] = $size_name;
+
+        return $this;
+    }
+
+    /**
+     * Gets size_name.
+     */
+    public function getItemClassification() : ?string
+    {
+        return $this->container['item_classification'];
+    }
+
+    /**
+     * Sets size_name.
+     *
+     * @param null|string $item_classification name of the size associated with an Amazon catalog item
+     */
+    public function setItemClassification(?string $item_classification) : self
+    {
+        $this->container['item_classification'] = $item_classification;
 
         return $this;
     }
