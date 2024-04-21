@@ -521,21 +521,22 @@ final class ListingsItemsSDK implements ListingsItemsSDKInterface
      * @throws ApiException on non-2xx response
      * @throws InvalidArgumentException
      */
-    public function getListingsItemRestrictions(AccessToken $accessToken, string $region, string $seller_id, string $asin, array $marketplace_ids, ?string $issue_locale = null) : \AmazonPHP\SellingPartner\Model\ListingsItems\Item
+    public function getListingsItemRestrictions(AccessToken $accessToken, string $region, string $seller_id, string $asin, array $marketplace_ids, ?string $issue_locale = null)
     {
         $request = $this->getListingsItemRestrictionsRequest($accessToken, $region, $seller_id, $asin, $marketplace_ids, $issue_locale);
 
         $this->configuration->extensions()->preRequest('ListingsRestrictions', 'getListingsRestrictions', $request);
 
         try {
-            $correlationId = $this->configuration->idGenerator()->generate();
-            $sanitizedRequest = $request;
-
-            foreach ($this->configuration->loggingSkipHeaders() as $sensitiveHeader) {
-                $sanitizedRequest = $sanitizedRequest->withoutHeader($sensitiveHeader);
-            }
+            $correlationId = \uuid_create(UUID_TYPE_RANDOM);
 
             if ($this->configuration->loggingEnabled('ListingsRestrictions', 'getListingsRestrictions')) {
+                $sanitizedRequest = $request;
+
+                foreach ($this->configuration->loggingSkipHeaders() as $sensitiveHeader) {
+                    $sanitizedRequest = $sanitizedRequest->withoutHeader($sensitiveHeader);
+                }
+
                 $this->logger->log(
                     $this->configuration->logLevel('ListingsRestrictions', 'getListingsRestrictions'),
                     'Amazon Selling Partner API pre request',
@@ -562,7 +563,7 @@ final class ListingsItemsSDK implements ListingsItemsSDKInterface
                 }
 
                 $this->logger->log(
-                    $this->configuration->logLevel('ListingsItems', 'getListingsItem'),
+                    $this->configuration->logLevel('ListingsRestrictions', 'getListingsRestrictions'),
                     'Amazon Selling Partner API post request',
                     [
                         'api' => 'ListingsRestrictions',
@@ -571,8 +572,6 @@ final class ListingsItemsSDK implements ListingsItemsSDKInterface
                         'response_body' => (string) $sanitizedResponse->getBody(),
                         'response_headers' => $sanitizedResponse->getHeaders(),
                         'response_status_code' => $sanitizedResponse->getStatusCode(),
-                        'request_uri' => (string) $sanitizedRequest->getUri(),
-                        'request_body' => (string) $sanitizedRequest->getBody(),
                     ]
                 );
             }
@@ -601,12 +600,7 @@ final class ListingsItemsSDK implements ListingsItemsSDKInterface
             );
         }
 
-        return ObjectSerializer::deserialize(
-            $this->configuration,
-            (string) $response->getBody(),
-            '\AmazonPHP\SellingPartner\Model\ListingsItems\Item',
-            []
-        );
+        return json_decode((string)$response->getBody(), true);
     }
 
     /**
