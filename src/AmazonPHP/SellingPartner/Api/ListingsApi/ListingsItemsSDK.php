@@ -984,9 +984,9 @@ final class ListingsItemsSDK implements ListingsItemsSDKInterface
      * @throws ApiException on non-2xx response
      * @throws InvalidArgumentException
      */
-    public function putListingsItem(AccessToken $accessToken, string $region, string $seller_id, string $sku, array $marketplace_ids, \AmazonPHP\SellingPartner\Model\ListingsItems\ListingsItemPutRequest $body, ?string $issue_locale = null) : \AmazonPHP\SellingPartner\Model\ListingsItems\ListingsItemSubmissionResponse
+    public function putListingsItem(AccessToken $accessToken, string $region, string $seller_id, string $sku, array $marketplace_ids, \AmazonPHP\SellingPartner\Model\ListingsItems\ListingsItemPutRequest $body, ?string $issue_locale = null, ?string $mode = null) : \AmazonPHP\SellingPartner\Model\ListingsItems\ListingsItemSubmissionResponse
     {
-        $request = $this->putListingsItemRequest($accessToken, $region, $seller_id, $sku, $marketplace_ids, $body, $issue_locale);
+        $request = $this->putListingsItemRequest($accessToken, $region, $seller_id, $sku, $marketplace_ids, $body, $issue_locale, $mode);
 
         $this->configuration->extensions()->preRequest('ListingsItems', 'putListingsItem', $request);
 
@@ -1082,7 +1082,7 @@ final class ListingsItemsSDK implements ListingsItemsSDKInterface
      *
      * @throws \AmazonPHP\SellingPartner\Exception\InvalidArgumentException
      */
-    public function putListingsItemRequest(AccessToken $accessToken, string $region, string $seller_id, string $sku, array $marketplace_ids, \AmazonPHP\SellingPartner\Model\ListingsItems\ListingsItemPutRequest $body, ?string $issue_locale = null) : RequestInterface
+    public function putListingsItemRequest(AccessToken $accessToken, string $region, string $seller_id, string $sku, array $marketplace_ids, \AmazonPHP\SellingPartner\Model\ListingsItems\ListingsItemPutRequest $body, ?string $issue_locale = null, ?string $mode = null) : RequestInterface
     {
         // verify the required parameter 'seller_id' is set
         if ($seller_id === null || (\is_array($seller_id) && \count($seller_id) === 0)) {
@@ -1131,6 +1131,10 @@ final class ListingsItemsSDK implements ListingsItemsSDKInterface
 
         if ($issue_locale !== null) {
             $queryParams['issueLocale'] = ObjectSerializer::toString($issue_locale);
+        }
+
+        if ($mode !== null) {
+            $queryParams['mode'] = ObjectSerializer::toString($mode);
         }
 
         if (\count($queryParams)) {
